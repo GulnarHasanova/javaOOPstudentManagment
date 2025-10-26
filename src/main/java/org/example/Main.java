@@ -14,9 +14,10 @@ public class Main {
 
 
          } catch (InputMismatchException e) {
-             System.out.println("duzgun sec");
-             // ƏSAS DÜZƏLİŞ: Səhv girişi buffer-dən təmizlə!
-             // Əks halda sonsuz dövr yaranacaq.
+             System.out.println("Invalid choice, please try again.");
+             // Clear the invalid input from the buffer!
+             // Otherwise, an infinite loop will occur.
+
              student.scanner.nextLine();
          }
      }

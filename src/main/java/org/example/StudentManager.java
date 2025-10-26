@@ -8,39 +8,39 @@ public class StudentManager   {
     ArrayList<Student>students = new ArrayList<>();
     public void  addStudent(){
         Student student = new Student();
-        System.out.println("id-i daxil et:");
+        System.out.println("Enter the id:");
         long id = scanner.nextLong();
         while(checkIfIdExists(id)){
-            System.out.println("bu idli sexs artiq movcuddur.");
-            System.out.println("id-i daxil et:");
+            System.out.println("This ID is already in use.");
+            System.out.println("Enter the id");
             id = scanner.nextLong();
             scanner.nextLine();
         }
-        System.out.println("adi daxil et:");
+        System.out.println("Enter the name:");
         String name =scanner.next();
         scanner.nextLine();
-        System.out.println("soyadi daxil et:");
+        System.out.println("Enter the surname:");
         String surname =scanner.next();
         scanner.nextLine();
 
         int age = -1;
         while (age <= 0) {
-            System.out.println("yas daxil et:");
+            System.out.println("Enter the age:");
 
             try {
                 age = scanner.nextInt();
-                scanner.nextLine(); // Həmişə bufferi təmizlə
+                scanner.nextLine(); // always clear the buffer
 
                 if (age <= 0) {
-                    System.out.println("Yasi duzgun daxil edin (0-dan böyük olmalıdır).");
+                    System.out.println("Enter a valid age (it must be greater than 0).");
                 }
 
             } catch (java.util.InputMismatchException e) {
-                System.out.println("XƏTA: Yaş yalnız rəqəm olmalıdır! Yenidən cəhd edin.");
+                System.out.println("Error: Age should contain numbers only! Try again");
 
                 scanner.nextLine();
 
-                // burda age menfi edirem ki dovr yeniden baslasin
+                //Here, I set age to a negative value so that the loop restarts.
                 age = -1;
             }
         }
@@ -50,7 +50,7 @@ public class StudentManager   {
         student.setName(name);
         student.setSurname(surname);
         students.add(student);
-        System.out.println(name +" "+ surname+" daxil edildi");
+        System.out.println(name + " " + surname + " has been added");
 
 
     }
@@ -61,14 +61,14 @@ public class StudentManager   {
     }
 
     public void findById(){
-        System.out.println("id-i daxil et:");
+        System.out.println("Enter the id:");
        long id =scanner.nextLong();
 
         System.out.println(students.stream().filter(student ->student.getId()==id ).findFirst().orElse(null));
     }
 
     public void deleteStudent(){
-        System.out.println("adi daxil et:");
+        System.out.println("Enter the name:");
         scanner.nextLine();
         String name =scanner.nextLine();
 
@@ -77,12 +77,13 @@ public class StudentManager   {
     }
 
     public int selectionMenu(){
-        System.out.println("istifade etmek istediyiniz methodu secin.");
-        System.out.print("" +
-                "1)id ile tap\n" +
-                "2)butun telebeleri goster\n" +
-                "3)telebeni adiyla sil\n" +
-                "4)telebe daxil et\n");
+        System.out.println("Select the method you want to use:");
+        System.out.print(
+                "1) Find by ID\n" +
+                        "2) Show all students\n" +
+                        "3) Delete student by name\n" +
+                        "4) Add student\n");
+
         int selection = scanner.nextInt();
         switch (selection){
             case 1->
@@ -96,15 +97,16 @@ public class StudentManager   {
             }
             case 4->
                 this.addStudent();
-            default -> System.out.println("duzgun secim edin");
+            default -> System.out.println("Invalid choice, please try again.");
 
         }
         return selection;
     }
 
     private boolean checkIfIdExists(long checkId) {
-        // Lambda burada xarici metodun dəyişəninə müraciət etmir,
-        // sadəcə parametr olaraq ötürülən 'checkId'-dən istifadə edir.
+        // The lambda here does not access any external method variables,
+        // it only uses 'checkId' passed as a parameter.
+
         return students.stream().anyMatch(stu -> stu.getId() == checkId);
     }
 
