@@ -67,12 +67,25 @@ public class StudentManager   {
         System.out.println(students.stream().filter(student ->student.getId()==id ).findFirst().orElse(null));
     }
 
-    public void deleteStudent(){
-        System.out.println("Enter the name:");
-        scanner.nextLine();
-        String name =scanner.nextLine();
+    public void deleteStudent() {
+        boolean isRunning = true;
+        while (isRunning){
+            System.out.println("Enter the name:");
+            String name = scanner.nextLine();
+            if(students.isEmpty()) {
+                System.out.println("The student list is empty.");
+            } else {
+                boolean removed = students.removeIf(student -> student.getName().trim().equals(name));
+                if(removed) {
+                    System.out.println("Deleted successfully.");
+                    isRunning =false;
+                } else {
+                    System.out.println("This student does not exist.");
+                }
+            }
+        }
 
-       students.removeIf(student -> student.getName().equals(name));
+
 
     }
 
@@ -85,6 +98,7 @@ public class StudentManager   {
                         "4) Add student\n");
 
         int selection = scanner.nextInt();
+        scanner.nextLine();
         switch (selection){
             case 1->
                 this.findById();
